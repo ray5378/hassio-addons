@@ -1,49 +1,46 @@
 # Home Assistant Add-on 配置:MusicFlow
 # 文档: https://developers.home-assistant.io/docs/add-ons/configuration
 name: MusicFlow
-version: "1.0.0"
+version: "1.1.0"
 slug: musicflow
 description: 自托管音乐库播放器,OpenSubsonic 兼容,支持 DLNA 投流与 HA 集成控制
+url: https://github.com/ray5378/hassio-addons/tree/main/musicflow
+# 主仓库 CI 只构建 linux/amd64 + linux/arm64,对应 HA 的 amd64 / aarch64
 arch:
   - amd64
-  - arm64
-# 复用主仓库已构建的多架构 Docker 镜像,不在此重新构建
-image: docker.io/ray5378/musicflow
-# DLNA SSDP 多播需要 host 网络(见主仓库 docker-compose.yml 注释)
-host_network: true
-# 把 MusicFlow Web UI 嵌入 HA 侧边栏
-ingress: true
-ingress_port: 46400
-ingress_entry: /
-panel_icon: mdi:music
-panel_title: MusicFlow
-# 启动时机:应用级,在 HA 之后启动
+  - aarch64
+
+# 不用 image: 直接拉主仓库镜像,而是本地基于它构建一层薄封装(见 Dockerfile),
+# 目的只有一个:把 DATA_DIR 指到 /share/musicflow,让数据在加载项升级后还在。
 startup: application
 boot: auto
-# Supervisor 能力(最小权限)
-hassio_api: true
-# 端口文档化(host_network 下不实际映射,仅展示)
+
+# DLNA 的 SSDP 发现走 UDP 多播,必须 host 网络(与主仓库 docker-compose 一致)。
+# 副作用:ingress 无法工作(前端使用绝对路径,挂在 ingress 子路径下会白屏),
+# 因此这里改用 webui 直链端口,由浏览器直接访问 46400。
+host_network: true
+webui: "http://[HOST]:46400"
+watchdog: "http://[HOST]:46400/ping"
+
+# host_network 下端口不做映射,这里仅用于在加载项页面上做说明
 ports:
   46400/tcp: 46400
 ports_description:
   46400/tcp: MusicFlow Web UI / OpenSubsonic API / WebSocket
-# 用户可配置项(对应主仓库 environment)
+
+# 数据持久化:/share/musicflow(宿主机 /addon_configs 之外,便于备份与迁移)
+map:
+  - share:rw
+
 options:
   jwt_secret: ""
   cors_origins: "*"
   play_history_retention_days: 3
   tz: Asia/Shanghai
-  uv_use_io_uring: "0"
+  dlna_base_url: ""
 schema:
-  jwt_secret: password
-  cors_origins: str
-  play_history_retention_days: int
-  tz: str
-  uv_use_io_uring: str
-# 数据持久化:挂载到 /share/musicflow,对应主仓库 ./data
-map:
-  - share:rw
-# ingress 流式响应(DLNA 拉流走直连端口,Web UI 走 ingress)
-ingress_stream: true
-# 健康检查:ping MusicFlow 自带的 /ping 端点
-heartbeat: true
+  jwt_secret: "password?"
+  cors_origins: "str?"
+  play_history_retention_days: "int(1,3650)?"
+  tz: "str?"
+  dlna_base_url: "str?"

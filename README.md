@@ -1,10 +1,8 @@
-<<<<<<< HEAD
-# hassio-addons
-Home Assistant Add-on repository for MusicFlow
-=======
 # MusicFlow Home Assistant Add-on Repository
 
 本仓库为 [MusicFlow](https://github.com/ray5378/MusicFlow) 提供 Home Assistant 加载项(Add-on)。
+
+MusicFlow 是自托管音乐库播放器,兼容 OpenSubsonic,支持 DLNA 投流与设备编组。
 
 ## 安装
 
@@ -14,11 +12,13 @@ Home Assistant Add-on repository for MusicFlow
 4. 点击 **添加**,关闭对话框
 5. 在加载项商店搜索 **MusicFlow** → 点击 **安装**
 6. 安装后建议开启:**开机启动**、**Watchdog**、(可选)**自动更新**
-7. 点击 **启动**,然后在 HA 侧边栏会出现 **MusicFlow** 入口
+7. 点击 **启动**,再点击 **打开 Web UI**
+
+> 首次启动会自动创建管理员账号 `admin / admin`,登录后请立即修改密码。
 
 ## 配置
 
-加载项的可选项(对应 MusicFlow 主仓库的环境变量):
+加载项选项(对应 MusicFlow 主仓库的环境变量):
 
 | 选项 | 默认 | 说明 |
 |---|---|---|
@@ -26,32 +26,42 @@ Home Assistant Add-on repository for MusicFlow
 | `cors_origins` | `*` | 允许的跨域来源 |
 | `play_history_retention_days` | `3` | 播放历史保留天数 |
 | `tz` | `Asia/Shanghai` | 时区 |
+| `dlna_base_url` | 空(自动探测) | DLNA 设备回拉音频流时使用的基地址,例如 `http://192.168.1.10:46400`。多网卡环境下自动探测到错误网卡时才需要手动填写 |
 
 ## 数据持久化
 
-数据卷挂载到 `/share/musicflow`,对应主仓库的 `./data`。备份/迁移只需备份该目录。
+数据目录挂载在 `/share/musicflow`(加载项内通过 `DATA_DIR` 指向该路径),对应主仓库 docker-compose 里的 `./data`。
+加载项升级、重装都不会丢数据;备份/迁移只需备份该目录。
 
-## 重要:关于 HA 集成(控制 DLNA)
+## 网络说明
 
-本加载项只负责把 MusicFlow 服务端跑在 HA Supervisor 管理下,并提供侧边栏 Web UI。
+加载项使用 `host_network: true`,这是 DLNA 的 SSDP 多播发现所必需的(与主仓库 docker-compose 一致)。
 
-如果希望在 HA 仪表盘里**查看/控制 DLNA 播放器、浏览曲库**,还需要安装配套的集成:
+因为共享宿主网络且前端使用绝对路径,**本加载项不启用 Ingress**,而是通过 `webui` 直接跳转到 `http://<HA地址>:46400`。
+这意味着:
+
+- 侧边栏不会出现 MusicFlow 图标,请从加载项页面的 **打开 Web UI** 进入(可在加载项页面开启"在侧边栏显示"以直链形式添加)
+- 需要保证 46400 端口在局域网内可达
+- 仅支持 HA OS / HA Supervised(Container 版无 Supervisor,请直接用 Docker 部署主仓库镜像)
+
+## 重要:关于 HA 集成(在仪表盘里控制播放)
+
+本加载项只负责把 MusicFlow 服务端跑在 HA Supervisor 管理下。
+
+如果希望在 HA 仪表盘里**查看/控制 DLNA 播放器与播放组、浏览歌单曲库**,还需要安装配套集成:
 
 1. 先安装 [HACS](https://hacs.xyz/)
-2. HACS → 集成 → 右上角 **⋮ → 自定义仓库**
+2. HACS → 右上角 **⋮ → 自定义仓库**
 3. 填入:`https://github.com/ray5378/hass-musicflow`,类别选 **Integration**
 4. 搜索 **MusicFlow** → 下载
 5. **重启 Home Assistant**
 6. 设置 → 设备与服务 → 添加集成 → **MusicFlow**
 
-如果 MusicFlow 加载项已在运行,集成会通过 Zeroconf 自动发现,无需手动填写地址。
+如果 MusicFlow 加载项已在运行,集成会通过 Zeroconf 自动发现,通常只需确认即可,无需手动填写地址。
 
-## 网络说明
-
-加载项使用 `host_network: true`,这是 DLNA SSDP 多播发现的必需条件(详见 MusicFlow 主仓库的 docker-compose 说明)。仅支持 HA OS / HA Supervised。
+集成会为每个 DLNA 设备和播放组创建 `media_player` 实体,支持播放/暂停/上一首/下一首/音量/进度/循环模式,以及媒体浏览(歌单 / 专辑 / 艺术家 / 流派)。
 
 ## 相关仓库
 
 - MusicFlow 服务端:https://github.com/ray5378/MusicFlow
 - HA 集成:https://github.com/ray5378/hass-musicflow
->>>>>>> a70797b (feat: initial MusicFlow HA add-on (config.yaml + README))

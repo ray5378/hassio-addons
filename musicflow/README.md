@@ -5,10 +5,35 @@
 ## 快速开始
 
 1. 在 HA 加载项商店添加仓库 `https://github.com/ray5378/hassio-addons`
-2. 安装 MusicFlow → 启动
-3. 侧边栏点击 MusicFlow 进入 Web UI
-4. 首次启动自动创建管理员 `admin / admin`(登录后强制改密)
+2. 安装 **MusicFlow** → **启动**
+3. 点击 **打开 Web UI**(地址为 `http://<HA地址>:46400`)
+4. 首次启动自动创建管理员 `admin / admin`,登录后请立即改密
+5. 在 Web UI 的"设置 → 音乐库"里添加音乐目录并扫描
+
+## 音乐文件放哪里
+
+加载项映射了 HA 的 `share` 目录(读写)。建议把音乐放到 `/share/music`,
+然后在 MusicFlow Web UI 里把音乐库路径填成 `/share/music`。
+
+数据库、封面缓存等运行数据存放在 `/share/musicflow`,升级加载项不会丢失。
+
+## 选项
+
+| 选项 | 默认 | 说明 |
+|---|---|---|
+| `jwt_secret` | 空 | JWT 签名密钥,留空则首次启动自动生成并持久化 |
+| `cors_origins` | `*` | 允许的跨域来源 |
+| `play_history_retention_days` | `3` | 播放历史保留天数 |
+| `tz` | `Asia/Shanghai` | 时区 |
+| `dlna_base_url` | 空 | DLNA 设备回拉音频流的基地址,如 `http://192.168.1.10:46400`。多网卡环境自动探测出错时才需填 |
+
+## 网络
+
+使用 `host_network: true`(DLNA SSDP 多播发现所需),因此不启用 Ingress,
+Web UI 通过 46400 端口直链访问。仅支持 HA OS / HA Supervised。
 
 ## 配合 HA 集成使用
 
-要在 HA 仪表盘控制 DLNA、浏览曲库,请安装集成仓库 `hass-musicflow`(详见仓库根目录 README)。
+要在 HA 仪表盘控制 DLNA 播放器 / 播放组、浏览曲库,请额外安装集成
+[`hass-musicflow`](https://github.com/ray5378/hass-musicflow)(通过 HACS 自定义仓库添加)。
+加载项运行后,集成会通过 Zeroconf 自动发现本服务。
