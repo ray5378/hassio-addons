@@ -50,14 +50,21 @@ MusicFlow 是自托管音乐库播放器,兼容 OpenSubsonic,支持 DLNA 投流�
 
 如果希望在 HA 仪表盘里**查看/控制 DLNA 播放器与播放组、浏览歌单曲库**,还需要安装配套集成:
 
+**第一步:在 MusicFlow 里生成 API Key**(集成用它作长期凭据,登录 Token 24 小时就过期)
+
+打开 MusicFlow Web UI → **设置** → **API Key** → 点击 **生成** → **复制**。
+
+**第二步:安装集成**
+
 1. 先安装 [HACS](https://hacs.xyz/)
 2. HACS → 右上角 **⋮ → 自定义仓库**
 3. 填入:`https://github.com/ray5378/hass-musicflow`,类别选 **Integration**
 4. 搜索 **MusicFlow** → 下载
 5. **重启 Home Assistant**
 6. 设置 → 设备与服务 → 添加集成 → **MusicFlow**
+7. 粘贴刚才复制的 API Key
 
-如果 MusicFlow 加载项已在运行,集成会通过 Zeroconf 自动发现,通常只需确认即可,无需手动填写地址。
+如果 MusicFlow 加载项已在运行,集成会通过 Zeroconf 自动发现,地址会自动填好,只需补 API Key。
 
 集成会为每个 DLNA 设备和播放组创建 `media_player` 实体,支持播放/暂停/上一首/下一首/音量/进度/循环模式,以及媒体浏览(歌单 / 专辑 / 艺术家 / 流派)。
 
