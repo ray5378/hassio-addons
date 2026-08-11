@@ -30,6 +30,7 @@
 | `play_history_retention_days` | `3` | 播放历史保留天数 |
 | `tz` | `Asia/Shanghai` | 时区 |
 | `dlna_base_url` | 空 | DLNA 设备回拉音频流的基地址,如 `http://192.168.1.10:46400`。多网卡环境自动探测出错时才需填 |
+| `official_registry` | 空 | 覆盖官方插件注册表地址(内网镜像 / 离线环境)。留空用默认官方 URL |
 
 ## 网络
 
