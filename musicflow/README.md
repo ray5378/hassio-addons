@@ -1,6 +1,9 @@
 # MusicFlow Add-on
 
-自托管音乐库播放器 [MusicFlow](https://github.com/ray5378/MusicFlow) 的 Home Assistant 加载项。
+自托管音乐库播放器 [MusicFlow-V2](https://github.com/ray5378/MusicFlow-V2)(插件化内核,OpenSubsonic 兼容)的 Home Assistant 加载项。
+
+> **注意**:本加载项基于 V2 镜像 `ghcr.io/ray5378/musicflow-v2` 构建,**仅支持 amd64**
+> (账号没有 ARM runner,暂不提供 aarch64 镜像)。
 
 ## 快速开始
 
@@ -15,7 +18,8 @@
 加载项映射了 HA 的 `share` 目录(读写)。建议把音乐放到 `/share/music`,
 然后在 MusicFlow Web UI 里把音乐库路径填成 `/share/music`。
 
-数据库、封面缓存等运行数据存放在 `/share/musicflow`,升级加载项不会丢失。
+数据库、封面缓存、插件数据等运行数据存放在 `/share/musicflow`,升级加载项不会丢失。
+在线源插件(go-music-dl 等)可在 Web UI 的"插件"页从官方注册表一键安装。
 
 ## 选项
 

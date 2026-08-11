@@ -1,17 +1,16 @@
 # Home Assistant Add-on 配置:MusicFlow
 # 文档: https://developers.home-assistant.io/docs/add-ons/configuration
 name: MusicFlow
-# 版本号跟随上游 MusicFlow 服务端(build.yaml 里 build_from 的镜像 tag),
+# 版本号跟随上游 MusicFlow-V2 服务端(build.yaml 里 build_from 的镜像 tag),
 # 用户在加载项页面看到的就是自己装的 MusicFlow 版本。
 # 只改封装层(run.sh / 选项)而不换镜像时,追加后缀如 "1.0.3-1"。
-version: "1.1.8"
+version: "1.2.0"
 slug: musicflow
 description: 自托管音乐库播放器,OpenSubsonic 兼容,支持 DLNA 投流与 HA 集成控制
 url: https://github.com/ray5378/hassio-addons/tree/main/musicflow
-# 主仓库 CI 只构建 linux/amd64 + linux/arm64,对应 HA 的 amd64 / aarch64
+# V2 仓库 CI 只构建 linux/amd64(账号无 ARM runner),aarch64 暂不支持
 arch:
   - amd64
-  - aarch64
 
 # 不用 image: 直接拉主仓库镜像,而是本地基于它构建一层薄封装(见 Dockerfile),
 # 目的只有一个:把 DATA_DIR 指到 /share/musicflow,让数据在加载项升级后还在。
