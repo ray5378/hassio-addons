@@ -4,8 +4,9 @@
 
 > **注意**:本加载项基于 V2 镜像 `ghcr.io/ray5378/musicflow-v2` 构建,**仅支持 amd64**
 > (账号没有 ARM runner,暂不提供 aarch64 镜像)。
-> 当前版本 **1.4.0**(V2 内核,外置插件运行于 QuickJS 沙箱,host.* 能力全量开放:
+> 当前版本 **1.5.0**(V2 内核,外置插件运行于 QuickJS 沙箱,host.* 能力全量开放:
 > `http` / `storage` / `comm` / `songs` / `fs` / `command` / `net` / `ws` / `jsenv` 均经权限执行点;
+> v1.5.0 起核心对平台/内置插件零耦合,内置 8 个插件(含新增 artist-info 歌手资料);
 > `official_registry` 选项可覆盖插件注册表)。
 
 ## 快速开始
