@@ -4,7 +4,7 @@ name: MusicFlow
 # 版本号跟随上游 MusicFlow-V2 服务端(build.yaml 里 build_from 的镜像 tag),
 # 用户在加载项页面看到的就是自己装的 MusicFlow 版本。
 # 只改封装层(run.sh / 选项)而不换镜像时,追加后缀如 "1.0.3-1"。
-version: "1.7.5"
+version: "1.7.6"
 slug: musicflow
 description: 自托管音乐库播放器,OpenSubsonic 兼容,支持 DLNA 投流与 HA 集成控制
 url: https://github.com/ray5378/hassio-addons/tree/main/musicflow
