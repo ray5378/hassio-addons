@@ -11,7 +11,7 @@ const MAP = {
   play_history_retention_days: "PLAY_HISTORY_RETENTION_DAYS",
   tz: "TZ",
   dlna_base_url: "DLNA_BASE_URL",
-  // 覆盖 V2 的官方插件注册表地址(内网镜像 / 离线环境),留空用默认官方 URL
+  // 覆盖官方插件注册表地址(内网镜像 / 离线环境),留空用默认官方 URL
   official_registry: "MUSICFLOW_OFFICIAL_REGISTRY",
 };
 
