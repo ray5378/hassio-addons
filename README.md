@@ -4,7 +4,7 @@
 
 MusicFlow 是自托管音乐库播放器,兼容 OpenSubsonic,支持 DLNA 投流与设备编组。
 
-> 本加载项运行的是 **MusicFlow V2**（插件化重构版）；V1 MVP 代码已归档至主仓库的 `V1-backup` 分支。
+> 本加载项运行的是 **MusicFlow**（插件化架构的自托管音乐库播放器）。
 
 ## 安装
 
