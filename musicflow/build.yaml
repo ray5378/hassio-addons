@@ -8,7 +8,7 @@
 # 镜像仅 amd64(账号没有 ARM runner,aarch64 暂不支持)。
 # 升级流程:MusicFlow 仓库打新 tag → 这里改版本号 → config.yaml 的 version 一起改。
 build_from:
-  amd64: ghcr.io/ray5378/musicflow:1.7.61
+  amd64: ghcr.io/ray5378/musicflow:1.7.72
 labels:
   org.opencontainers.image.title: MusicFlow Add-on
   org.opencontainers.image.source: https://github.com/ray5378/hassio-addons
