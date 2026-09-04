@@ -76,6 +76,10 @@ MusicFlow 是自托管音乐库播放器,兼容 OpenSubsonic,支持 DLNA 投流�
 
 集成会为每个 DLNA 设备和播放组创建 `media_player` 实体,支持播放/暂停/上一首/下一首/音量/进度/循环模式,以及媒体浏览(歌单 / 专辑 / 艺术家 / 流派)。
 
+## 国际化（i18n）
+
+本仓库为 shell / 部署层（addon 配置与容器编排），无面向用户的 UI 文案，当前无 i18n 任务。若后续 addon 暴露面向用户的可配置项文案，再接入 HASS 多语言（上层集成 / 卡片的 i18n 见各自仓库）。
+
 ## 相关仓库
 
 - MusicFlow 服务端:https://github.com/ray5378/MusicFlow
